@@ -7,22 +7,33 @@ const client = new google.auth.JWT(
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 
+let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];
+let TestersArr = [];
+
 client.authorize(function(err,token){
     if(err){
         console.log(err);
         return;
     } else {
-        console.log('Connected to Sheets!')
+        console.log('Connected to Sheets!');
     }
 });
 
-async function writeToTheSheets(cl, currentTester){
+async function WriteForSheets(cl, CurrentTesterID){
     const gsapi = google.sheets({version:'v4', auth: cl});
+    const opt = {
+        spreadsheetId: '1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q',
+        range:'test!Z7:Z11'
+    }
+    let data = await gsapi.spreadsheets.values.get(opt);
+
+        TestersArr = data.data.values;
+
     const updateByTesretName = {
         spreadsheetId: '1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q',
-        range:'test!B3',
+        range:'test!H15',
         valueInputOption: 'USER_ENTERED',
-        resource: {values: currentTester}
+        resource: {values: TestersArr[0]}
     };
     let res = await gsapi.spreadsheets.values.update(updateByTesretName);
     console.log(res);
@@ -41,11 +52,14 @@ const bot = new TelegramBot(TOKEN, {
     }
 });
 
-const testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];
+
+//переебенивам
+
+
+
 let TelegramtesterID = 0;
 
 
-writeToTheSheets(client, testers[0]);
 
 
 
@@ -83,14 +97,14 @@ function Navigation(chatID){
 
     bot.on('callback_query', query => {
         if(query.data === 'confirm') {
-            bot.sendMessage('ok');
-            
+            WriteForSheets(client, TelegramtesterID);
+            bot.sendMessage(msg.chat.id,'ok');           
         }
     })
 }
 
 bot.onText(/\/run/, msg => {
-    callOnDuty(msg.chat.id, testers[TelegramtesterID]);
+    callOnDuty(msg.chat.id, [testers[TelegramtesterID]]);
     if(TelegramtesterID === 4) {
         TelegramtesterID = 0;
     } else {
