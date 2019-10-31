@@ -52,16 +52,7 @@ const bot = new TelegramBot(TOKEN, {
     }
 });
 
-
-//переебенивам
-
-
-
 let TelegramtesterID = 0;
-
-
-
-
 
 function callOnDuty(chatID, tester){
     bot.sendMessage(chatID, tester +' пора регрессировать');
