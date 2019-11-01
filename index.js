@@ -1,3 +1,6 @@
+// чет мудренное с индексами - они перекрывают как то друг друга
+// надо понять
+
 const {google} = require('googleapis');
 const keys = require('./keys.json');
 const client = new google.auth.JWT(
@@ -7,7 +10,7 @@ const client = new google.auth.JWT(
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 
-let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];;
+let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];
 let name;
 const testerNames = {
     stan61rus: [['Костя']],
@@ -50,8 +53,7 @@ async function WriteForSheets(cl, CurrentTesterTelegramID){
             name = false;
             break;
       }
-      console.log(name);
-
+      console.log(name, '*****************');
     const updateByTesretName = {
         spreadsheetId: '1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q',
         range:`test!H${counter}`,
@@ -132,7 +134,7 @@ function Navigation(chatID){
                 counter += 1;
             } else {
                 TelegramtesterID +=1;
-                counter += 1; // да почему по 2 раза??????
+               counter += 1; // да почему по 2 раза??????
             }
         }
         //bot.sendMessage(chatID,'ok');    разобравться почему дублируется        
@@ -142,4 +144,11 @@ function Navigation(chatID){
 bot.onText(/\/run/, msg => {
    callOnDuty(msg.chat.id, [testers[TelegramtesterID]]);
     Navigation(msg.chat.id);
+    if(TelegramtesterID === 4) {
+        TelegramtesterID = 0;
+       counter += 1;
+    } else {
+        TelegramtesterID +=1;
+        counter += 1; // да почему по 2 раза??????
+    }
 })
