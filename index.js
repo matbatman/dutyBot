@@ -7,8 +7,16 @@ const client = new google.auth.JWT(
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 
-let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];
-let TestersArr = [];
+let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];;
+let name;
+const testerNames = {
+    stan61rus: [['Костя']],
+    Daniil: [['Даниил']],
+    Denis: [['Денис']],
+    matbat: [['Вика']],
+    iEclisse: [['Дима']]
+};
+let counter = 1;
 
 client.authorize(function(err,token){
     if(err){
@@ -19,22 +27,38 @@ client.authorize(function(err,token){
     }
 });
 
-async function WriteForSheets(cl, CurrentTesterID){
+async function WriteForSheets(cl, CurrentTesterTelegramID){
     const gsapi = google.sheets({version:'v4', auth: cl});
-    const opt = {
-        spreadsheetId: '1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q',
-        range:'test!Z7:Z11'
-    }
-    let data = await gsapi.spreadsheets.values.get(opt);
 
-        TestersArr = data.data.values;
+    switch (CurrentTesterTelegramID) {
+        case '@stan61rus':
+            name = testerNames.stan61rus;
+            break;
+        case '@Даниил':
+            name = testerNames.Daniil;
+            break;
+        case '@Денис':
+            name = testerNames.Denis;
+            break;
+        case '@matbat':
+            name = testerNames.matbat;
+            break;
+        case '@iEclisse':
+            name = testerNames.iEclisse;
+            break;
+        default:
+            name = false;
+            break;
+      }
+      console.log(name);
 
     const updateByTesretName = {
         spreadsheetId: '1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q',
-        range:'test!H15',
+        range:`test!H${counter}`,
         valueInputOption: 'USER_ENTERED',
-        resource: {values: TestersArr[0]}
+        resource: {values: name}
     };
+
     let res = await gsapi.spreadsheets.values.update(updateByTesretName);
     console.log(res);
 }
@@ -57,6 +81,7 @@ let TelegramtesterID = 0;
 function callOnDuty(chatID, tester){
     bot.sendMessage(chatID, tester +' пора регрессировать');
 }
+
 
 function Navigation(chatID){
     bot.sendMessage(chatID, 'Навигация', {
@@ -87,19 +112,34 @@ function Navigation(chatID){
     })
 
     bot.on('callback_query', query => {
-        if(query.data === 'confirm') {
-            WriteForSheets(client, TelegramtesterID);
-            bot.sendMessage(msg.chat.id,'ok');           
+        if(query.data === 'switch') {
+            if(TelegramtesterID === 4) {
+                TelegramtesterID = 0;
+            } else {
+                TelegramtesterID +=1;
+                callOnDuty(chatID, [testers[TelegramtesterID]]);
+            }
+            Navigation(chatID);
+         
         }
+    })
+
+    bot.on('callback_query', query => {
+        if(query.data === 'confirm') {
+            WriteForSheets(client, testers[TelegramtesterID]);
+            if(TelegramtesterID === 4) {
+                TelegramtesterID = 0;
+                counter += 1;
+            } else {
+                TelegramtesterID +=1;
+                counter += 1; // да почему по 2 раза??????
+            }
+        }
+        //bot.sendMessage(chatID,'ok');    разобравться почему дублируется        
     })
 }
 
 bot.onText(/\/run/, msg => {
-    callOnDuty(msg.chat.id, [testers[TelegramtesterID]]);
-    if(TelegramtesterID === 4) {
-        TelegramtesterID = 0;
-    } else {
-        TelegramtesterID +=1;
-    }
+   callOnDuty(msg.chat.id, [testers[TelegramtesterID]]);
     Navigation(msg.chat.id);
 })
