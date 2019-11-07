@@ -67,7 +67,7 @@ async function WriteForSheets(cl, CurrentTesterTelegramID){
 
 
 const TelegramBot = require('node-telegram-bot-api');
-const TOKEN = '1026332914:AAGiTL91XNW6OKyf1qWTzXuLkxG68bedJX4';
+
 const bot = new TelegramBot(TOKEN, {
     polling: {
         interval: 300,
