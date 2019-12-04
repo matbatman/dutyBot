@@ -50,6 +50,12 @@ function Rotation(tester)
 
 }
 
+function onDuty(testerObj)
+{
+    testerObj.isDone = 1;
+    console.log(testerObj);
+}
+
 function Navigation(chatID){
     bot.sendMessage(chatID, 'Навигация', {
         reply_markup: {
@@ -86,10 +92,12 @@ function Navigation(chatID){
 
     bot.on('callback_query', query => {
         if(query.data === 'confirm') {
+        onDuty(arrTestersObj[0]);
         }     
     })
 }
 
 bot.onText(/\/run/, msg => {
     bot.sendMessage(msg.chat.id, 'OK');
+    // сюда ротатор
 })
