@@ -1,18 +1,40 @@
 const keys = require('./token.js');
 let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];
 
-function Tester(telegaName, isDone)
+/*function Tester(telegaName, isDone)
 {
     this.telegaName = telegaName;
     this.isDone = isDone;
 }
 
-let tes0 = new Tester(testers[0],0);
+let tes0 = new Tester(testers[0],0); думаю думаю
 let tes1 = new Tester(testers[1],0);
-let tes2 = new Tester(testers[2],0);
+let tes2 = new Tester(testers[2],0);*/
+
+let arrTestersObj = [];
+
+arrTestersObj[0] = {
+    telegaName: '@stan61rus',
+    isDone: 0,
+}
+arrTestersObj[1] = {
+    telegaName: '@Даниил',
+    isDone: 0,
+}
+arrTestersObj[2] = {
+    telegaName: '@Денис',
+    isDone: 0,
+}
+arrTestersObj[3] = {
+    telegaName: '@matbat',
+    isDone: 0,
+}
+arrTestersObj[4] = {
+    telegaName: '@iEclisse',
+    isDone: 0,
+}
 
 const TelegramBot = require('node-telegram-bot-api');
- // не забыть выпилить
 const bot = new TelegramBot(keys.token, {
     polling: {
         interval: 300,
@@ -23,6 +45,10 @@ const bot = new TelegramBot(keys.token, {
     }
 });
 
+function Rotation(tester)
+{
+
+}
 
 function Navigation(chatID){
     bot.sendMessage(chatID, 'Навигация', {
