@@ -1,16 +1,16 @@
 const keys = require('./token.js');
 let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];
-let name;
-const testerNames = {
-    stan61rus: [['Костя']],
-    Daniil: [['Даниил']],
-    Denis: [['Денис']],
-    matbat: [['Вика']],
-    iEclisse: [['Дима']]
-};
 
+function Tester(telegaName, isDone)
+{
+    this.telegaName = telegaName;
+    this.isDone = isDone;
+}
 
-//const TOKEN = '1026332914:AAHR5JradUfWy48MxL3n104mEAF-7hpFt-Q';
+let tes0 = new Tester(testers[0],0);
+let tes1 = new Tester(testers[1],0);
+let tes2 = new Tester(testers[2],0);
+
 const TelegramBot = require('node-telegram-bot-api');
  // не забыть выпилить
 const bot = new TelegramBot(keys.token, {
