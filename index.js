@@ -15,23 +15,23 @@ let arrTestersObj = [];
 
 arrTestersObj[0] = {
     telegaName: '@stan61rus',
-    isDone: 0,
+    isDone: false,
 }
 arrTestersObj[1] = {
     telegaName: '@Даниил',
-    isDone: 0,
+    isDone: false,
 }
 arrTestersObj[2] = {
     telegaName: '@Денис',
-    isDone: 0,
+    isDone: false,
 }
 arrTestersObj[3] = {
     telegaName: '@matbat',
-    isDone: 0,
+    isDone: false,
 }
 arrTestersObj[4] = {
     telegaName: '@iEclisse',
-    isDone: 0,
+    isDone: false,
 }
 
 const TelegramBot = require('node-telegram-bot-api');
@@ -52,7 +52,7 @@ function* generateSequence(testerObj) {
 
 function onDuty(testerObj)
 {
-    testerObj.isDone = 1;
+    testerObj.isDone = true;
     console.log(testerObj);
 }
 
@@ -102,6 +102,9 @@ bot.onText(/\/run/, msg => {
     {
     let a = generateSequence(arrTestersObj);
     let one = a.next();
-    console.log(one);}
-    bot.sendMessage(msg.chat.id, 'OK');
+    console.log(one);
+    two = onDuty(arrTestersObj[i]);
+    console.log(arrTestersObj[i]);
+}
+bot.sendMessage(msg.chat.id, 'OK');
 })
