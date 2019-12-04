@@ -45,10 +45,10 @@ const bot = new TelegramBot(keys.token, {
     }
 });
 
-function Rotation(tester)
-{
+function* generateSequence(testerObj) {
 
-}
+    yield testerObj[i].telegaName;
+  }
 
 function onDuty(testerObj)
 {
@@ -98,6 +98,10 @@ function Navigation(chatID){
 }
 
 bot.onText(/\/run/, msg => {
+    for(i = 0; i < arrTestersObj.length; i ++)
+    {
+    let a = generateSequence(arrTestersObj);
+    let one = a.next();
+    console.log(one);}
     bot.sendMessage(msg.chat.id, 'OK');
-    // сюда ротатор
 })
