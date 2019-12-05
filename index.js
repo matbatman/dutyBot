@@ -10,6 +10,7 @@ let tes0 = new Tester(testers[0],0); думаю думаю
 let tes1 = new Tester(testers[1],0);
 let tes2 = new Tester(testers[2],0);*/
 
+let hypotheticalDuty;
 let arrTestersObj = [];
 
 arrTestersObj[0] = {
@@ -52,9 +53,9 @@ function* generateSequence(testerObj) {
 function Rotator(){
     for(i = 0; i < arrTestersObj.length; i ++)
     {
-    let a = generateSequence(arrTestersObj);
+    let generator = generateSequence(arrTestersObj);
     if(arrTestersObj[i].isDone == 0){
-    let switcher = a.next();
+    let switcher = generator.next();
     return switcher;
 }
 }
@@ -102,12 +103,13 @@ function Navigation(chatID){
 
     bot.on('callback_query', query => {
         if(query.data === 'confirm') {
-        onDuty(arrTestersObj[0]);
+            onDuty(hypotheticalDuty);
         }     
     })
 }
 
 bot.onText(/\/run/, msg => {
-    test();
+hypotheticalDuty = Rotator();
+console.log(hypotheticalDuty);
 bot.sendMessage(msg.chat.id, 'OK');
 })
