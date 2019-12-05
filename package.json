@@ -8,7 +8,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "src/index.js": [
+    "./index.js": [
     "prettier --single-quote --use-tabs --trailing-comma es5 --write",
     "git add"
    ]

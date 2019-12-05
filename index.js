@@ -14,103 +14,101 @@ let hypotheticalDuty;
 let arrTestersObj = [];
 
 arrTestersObj[0] = {
-    telegaName: '@stan61rus',
-    isDone: false,
-}
+	telegaName: '@stan61rus',
+	isDone: false,
+};
 arrTestersObj[1] = {
-    telegaName: '@Даниил',
-    isDone: false,
-}
+	telegaName: '@Даниил',
+	isDone: false,
+};
 arrTestersObj[2] = {
-    telegaName: '@Денис',
-    isDone: false,
-}
+	telegaName: '@Денис',
+	isDone: false,
+};
 arrTestersObj[3] = {
-    telegaName: '@matbat',
-    isDone: false,
-}
+	telegaName: '@matbat',
+	isDone: false,
+};
 arrTestersObj[4] = {
-    telegaName: '@iEclisse',
-    isDone: false,
-}
+	telegaName: '@iEclisse',
+	isDone: false,
+};
 
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(keys.token, {
-    polling: {
-        interval: 300,
-        autoStart: true,
-        params: {
-            timeout: 10
-        }
-    }
+	polling: {
+		interval: 300,
+		autoStart: true,
+		params: {
+			timeout: 10,
+		},
+	},
 });
 
 function* generateSequence(testerObj) {
-    yield testerObj[i].telegaName;
-  }
-
-function Rotator(){
-    for(i = 0; i < arrTestersObj.length; i ++)
-    {
-    let generator = generateSequence(arrTestersObj);
-    if(arrTestersObj[i].isDone == 0){
-    let switcher = generator.next();
-    return switcher;
-}
-}
+	yield testerObj[i].telegaName;
 }
 
-
-function onDuty(testerObj)
-{
-    testerObj.isDone = true;
-    console.log(testerObj);
+function Rotator() {
+	for (i = 0; i < arrTestersObj.length; i++) {
+		let generator = generateSequence(arrTestersObj);
+		if (arrTestersObj[i].isDone == 0) {
+			let switcher = generator.next();
+			return switcher;
+		}
+	}
 }
 
-function Navigation(chatID){
-    bot.sendMessage(chatID, 'Навигация', {
-        reply_markup: {
-            inline_keyboard:[
-                [
-                    {
-                        text: 'Подтвердить',
-                        callback_data: 'confirm'
-                    },
-                    {
-                        text: 'Поменяться',
-                        callback_data: 'switch'
-                    }
-                ],
-                [
-                    {
-                        text: 'WIKI',
-                        url: 'https://gitlab.ukit.space/QA/wiki/wikis/home#%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B'
-                    },
-                    {
-                        text: 'Таблица релизов',
-                        url: 'https://docs.google.com/spreadsheets/d/1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q/edit#gid=0'
-                    }
-                ]
-            ]
-        }
-    })
+function onDuty(testerObj) {
+	testerObj.isDone = true;
+	console.log(testerObj);
+}
 
-    bot.on('callback_query', query => {
-        if(query.data === 'switch') {
-         
-        }
-    })
+function Navigation(chatID) {
+	bot.sendMessage(chatID, 'Навигация', {
+		reply_markup: {
+			inline_keyboard: [
+				[
+					{
+						text: 'Подтвердить',
+						callback_data: 'confirm',
+					},
+					{
+						text: 'Поменяться',
+						callback_data: 'switch',
+					},
+				],
+				[
+					{
+						text: 'WIKI',
+						url:
+							'https://gitlab.ukit.space/QA/wiki/wikis/home#%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B',
+					},
+					{
+						text: 'Таблица релизов',
+						url:
+							'https://docs.google.com/spreadsheets/d/1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q/edit#gid=0',
+					},
+				],
+			],
+		},
+	});
 
-    bot.on('callback_query', query => {
-        if(query.data === 'confirm') {
-            onDuty(hypotheticalDuty);
-        }     
-    })
+	bot.on('callback_query', query => {
+		if (query.data === 'switch') {
+		}
+	});
+
+	bot.on('callback_query', query => {
+		if (query.data === 'confirm') {
+			onDuty(hypotheticalDuty);
+		}
+	});
 }
 
 bot.onText(/\/run/, msg => {
-hypotheticalDuty = Rotator();
-console.log(hypotheticalDuty);
-Navigation(msg.chat.id);
-bot.sendMessage(msg.chat.id, 'OK');
-})
+	hypotheticalDuty = Rotator();
+	console.log(hypotheticalDuty);
+	Navigation(msg.chat.id);
+	bot.sendMessage(msg.chat.id, 'OK');
+});
