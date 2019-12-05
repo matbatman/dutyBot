@@ -4,8 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "precommit": "lint-staged"
   },
+  "lint-staged": {
+    "src/index.js": [
+    "prettier --single-quote --use-tabs --trailing-comma es5 --write",
+    "git add"
+   ]
+
+},
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -13,6 +21,12 @@
     "node-telegram-bot-api": "^0.40.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "nodemon": "^1.19.4",
+    "prettier": "^1.19.1"
   }
+
 }
+
+

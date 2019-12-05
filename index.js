@@ -46,7 +46,6 @@ const bot = new TelegramBot(keys.token, {
 });
 
 function* generateSequence(testerObj) {
-
     yield testerObj[i].telegaName;
   }
 
@@ -60,6 +59,7 @@ function Rotator(){
 }
 }
 }
+
 
 function onDuty(testerObj)
 {
@@ -111,5 +111,6 @@ function Navigation(chatID){
 bot.onText(/\/run/, msg => {
 hypotheticalDuty = Rotator();
 console.log(hypotheticalDuty);
+Navigation(msg.chat.id);
 bot.sendMessage(msg.chat.id, 'OK');
 })
