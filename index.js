@@ -1,5 +1,4 @@
 const keys = require('./token.js');
-let testers = ['@stan61rus', '@Даниил', '@Денис', '@matbat', '@iEclisse'];
 
 /*function Tester(telegaName, isDone)
 {
@@ -50,6 +49,17 @@ function* generateSequence(testerObj) {
     yield testerObj[i].telegaName;
   }
 
+function Rotator(){
+    for(i = 0; i < arrTestersObj.length; i ++)
+    {
+    let a = generateSequence(arrTestersObj);
+    if(arrTestersObj[i].isDone == 0){
+    let switcher = a.next();
+    return switcher;
+}
+}
+}
+
 function onDuty(testerObj)
 {
     testerObj.isDone = true;
@@ -98,13 +108,6 @@ function Navigation(chatID){
 }
 
 bot.onText(/\/run/, msg => {
-    for(i = 0; i < arrTestersObj.length; i ++)
-    {
-    let a = generateSequence(arrTestersObj);
-    let one = a.next();
-    console.log(one);
-    two = onDuty(arrTestersObj[i]);
-    console.log(arrTestersObj[i]);
-}
+    test();
 bot.sendMessage(msg.chat.id, 'OK');
 })
