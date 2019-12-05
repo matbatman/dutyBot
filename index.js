@@ -64,8 +64,8 @@ function onDuty(testerObj) {
 	console.log(testerObj);
 }
 
-function Navigation(chatID) {
-	bot.sendMessage(chatID, 'Навигация', {
+function Navigation(chatID, telegaId) {
+	bot.sendMessage(chatID, `Пора регрессировать ${telegaId}`, {
 		reply_markup: {
 			inline_keyboard: [
 				[
@@ -109,6 +109,5 @@ function Navigation(chatID) {
 bot.onText(/\/run/, msg => {
 	hypotheticalDuty = Rotator();
 	console.log(hypotheticalDuty);
-	Navigation(msg.chat.id);
-	bot.sendMessage(msg.chat.id, 'OK');
+	Navigation(msg.chat.id, hypotheticalDuty.value);
 });
