@@ -1,15 +1,5 @@
 const keys = require('./token.js');
 
-/*function Tester(telegaName, isDone)
-{
-    this.telegaName = telegaName;
-    this.isDone = isDone;
-}
-
-let tes0 = new Tester(testers[0],0); думаю думаю
-let tes1 = new Tester(testers[1],0);
-let tes2 = new Tester(testers[2],0);*/
-
 let hypotheticalDuty;
 let arrTestersObj = [];
 
