@@ -45,15 +45,10 @@ const bot = new TelegramBot(keys.token, {
 	},
 });
 
-function* generateSequence(testerObj) {
-	yield testerObj[i].telegaName;
-}
-
-function Rotator() {
+function Rotator(arrTestersObj) {
 	for (i = 0; i < arrTestersObj.length; i++) {
-		let generator = generateSequence(arrTestersObj);
-		if (arrTestersObj[i].isDone == 0) {
-			let switcher = generator.next();
+		if (arrTestersObj[i].isDone == false) {
+			let switcher = arrTestersObj[i];
 			return switcher;
 		}
 	}
@@ -101,13 +96,14 @@ function Navigation(chatID, telegaId) {
 
 	bot.on('callback_query', query => {
 		if (query.data === 'confirm') {
+			console.log(hypotheticalDuty);
 			onDuty(hypotheticalDuty);
 		}
 	});
 }
 
 bot.onText(/\/run/, msg => {
-	hypotheticalDuty = Rotator();
+	hypotheticalDuty = Rotator(arrTestersObj);
 	console.log(hypotheticalDuty);
-	Navigation(msg.chat.id, hypotheticalDuty.value);
+	Navigation(msg.chat.id, hypotheticalDuty.telegaName);
 });
