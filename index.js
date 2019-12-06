@@ -64,6 +64,8 @@ function onDuty(testerObj) {
 	console.log(testerObj);
 }
 
+function Switcer() {}
+
 function Navigation(chatID, telegaId) {
 	bot.sendMessage(chatID, `Пора регрессировать ${telegaId}`, {
 		reply_markup: {
@@ -74,20 +76,9 @@ function Navigation(chatID, telegaId) {
 						callback_data: 'confirm',
 					},
 					{
-						text: 'Поменяться',
-						callback_data: 'switch',
-					},
-				],
-				[
-					{
 						text: 'WIKI',
 						url:
 							'https://gitlab.ukit.space/QA/wiki/wikis/home#%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B',
-					},
-					{
-						text: 'Таблица релизов',
-						url:
-							'https://docs.google.com/spreadsheets/d/1du1FQ4pCNV6boihRr2JeQgZiUwkwOx9OC63ex7mwc0Q/edit#gid=0',
 					},
 				],
 			],
@@ -101,7 +92,6 @@ function Navigation(chatID, telegaId) {
 
 	bot.on('callback_query', query => {
 		if (query.data === 'confirm') {
-			console.log(hypotheticalDuty);
 			onDuty(hypotheticalDuty);
 		}
 	});
@@ -110,6 +100,7 @@ function Navigation(chatID, telegaId) {
 bot.onText(/\/run/, msg => {
 	Reset(arrTestersObj);
 	hypotheticalDuty = Rotator(arrTestersObj);
-	console.log(hypotheticalDuty);
 	Navigation(msg.chat.id, hypotheticalDuty.telegaName);
 });
+
+bot.onText(/\/table/, msg => {});
