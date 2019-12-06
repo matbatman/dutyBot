@@ -45,6 +45,21 @@ const bot = new TelegramBot(keys.token, {
 	},
 });
 
+function Reset(arrTestersObj) {
+	if (
+		arrTestersObj[0].isDone &&
+		arrTestersObj[1].isDone &&
+		arrTestersObj[2].isDone &&
+		arrTestersObj[3].isDone &&
+		arrTestersObj[4].isDone
+	) {
+		// слишком за уши
+		for (let i = 0; i < arrTestersObj.length; i++) {
+			arrTestersObj[i].isDone = false;
+		}
+	}
+}
+
 function Rotator(arrTestersObj) {
 	for (i = 0; i < arrTestersObj.length; i++) {
 		if (arrTestersObj[i].isDone == false) {
@@ -103,6 +118,7 @@ function Navigation(chatID, telegaId) {
 }
 
 bot.onText(/\/run/, msg => {
+	Reset(arrTestersObj);
 	hypotheticalDuty = Rotator(arrTestersObj);
 	console.log(hypotheticalDuty);
 	Navigation(msg.chat.id, hypotheticalDuty.telegaName);
