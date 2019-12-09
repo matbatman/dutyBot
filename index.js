@@ -35,7 +35,7 @@ const bot = new TelegramBot(keys.token, {
 	},
 });
 
-function Reset(arrTestersObj) {
+function reset(arrTestersObj) {
 	if (
 		arrTestersObj[0].isDone &&
 		arrTestersObj[1].isDone &&
@@ -50,7 +50,7 @@ function Reset(arrTestersObj) {
 	}
 }
 
-function Rotator(arrTestersObj) {
+function rotator(arrTestersObj) {
 	for (i = 0; i < arrTestersObj.length; i++) {
 		if (arrTestersObj[i].isDone == false) {
 			let switcher = arrTestersObj[i];
@@ -64,9 +64,9 @@ function onDuty(testerObj) {
 	console.log(testerObj);
 }
 
-function Switcer() {}
+function switcer() {}
 
-function Navigation(chatID, telegaId) {
+function navigation(chatID, telegaId) {
 	bot.sendMessage(chatID, `Пора регрессировать ${telegaId}`, {
 		reply_markup: {
 			inline_keyboard: [
@@ -86,11 +86,6 @@ function Navigation(chatID, telegaId) {
 	});
 
 	bot.on('callback_query', query => {
-		if (query.data === 'switch') {
-		}
-	});
-
-	bot.on('callback_query', query => {
 		if (query.data === 'confirm') {
 			onDuty(hypotheticalDuty);
 		}
@@ -98,9 +93,11 @@ function Navigation(chatID, telegaId) {
 }
 
 bot.onText(/\/run/, msg => {
-	Reset(arrTestersObj);
-	hypotheticalDuty = Rotator(arrTestersObj);
-	Navigation(msg.chat.id, hypotheticalDuty.telegaName);
+	reset(arrTestersObj);
+	hypotheticalDuty = rotator(arrTestersObj);
+	navigation(msg.chat.id, hypotheticalDuty.telegaName);
 });
+
+bot.onText(/\/switch/, msg => {});
 
 bot.onText(/\/table/, msg => {});
