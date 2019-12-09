@@ -64,7 +64,32 @@ function onDuty(testerObj) {
 	console.log(testerObj);
 }
 
-function switcer() {}
+function switcer(firstLetterOfName) {
+	switch (firstLetterOfName) {
+		case 'костя':
+			onDuty(arrTestersObj[0]);
+			return 'success';
+
+		case 'даниил':
+			onDuty(arrTestersObj[1]);
+			return 'success';
+
+		case 'денис':
+			onDuty(arrTestersObj[2]);
+			return 'success';
+
+		case 'вика':
+			onDuty(arrTestersObj[3]);
+			return 'success';
+
+		case 'дима':
+			onDuty(arrTestersObj[4]);
+			return 'success';
+
+		default:
+			return 'name not found';
+	}
+}
 
 function navigation(chatID, telegaId) {
 	bot.sendMessage(chatID, `Пора регрессировать ${telegaId}`, {
