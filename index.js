@@ -51,7 +51,7 @@ function reset(arrTestersObj) {
 }
 
 function rotator(arrTestersObj) {
-	for (i = 0; i < arrTestersObj.length; i++) {
+	for (let i = 0; i < arrTestersObj.length; i++) {
 		if (arrTestersObj[i].isDone == false) {
 			let switcher = arrTestersObj[i];
 			return switcher;
@@ -123,6 +123,9 @@ bot.onText(/\/run/, msg => {
 	navigation(msg.chat.id, hypotheticalDuty.telegaName);
 });
 
-bot.onText(/\/switch/, msg => {});
+bot.onText(/\/switch/, msg => {
+	let a = message.id;
+	console.log(a);
+});
 
 bot.onText(/\/table/, msg => {});
