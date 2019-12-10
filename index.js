@@ -61,29 +61,29 @@ function rotator(arrTestersObj) {
 
 function onDuty(testerObj) {
 	testerObj.isDone = true;
-	console.log(testerObj);
+	return testerObj;
 }
 
-function switcher(firstLetterOfName) {
+function switcher(chatID, firstLetterOfName) {
 	switch (firstLetterOfName) {
 		case 'костя':
-			onDuty(arrTestersObj[0]);
+			navigation(chatID, arrTestersObj[0].telegaName);
 			return 'success';
 
 		case 'даниил':
-			onDuty(arrTestersObj[1]);
+			navigation(chatID, arrTestersObj[1].telegaName);
 			return 'success';
 
 		case 'денис':
-			onDuty(arrTestersObj[2]);
+			navigation(chatID, arrTestersObj[2].telegaName);
 			return 'success';
 
 		case 'вика':
-			onDuty(arrTestersObj[3]);
+			navigation(chatID, arrTestersObj[3].telegaName);
 			return 'success';
 
 		case 'дима':
-			onDuty(arrTestersObj[4]);
+			navigation(chatID, arrTestersObj[4].telegaName);
 			return 'success';
 
 		default:
@@ -125,7 +125,7 @@ bot.onText(/\/run/, msg => {
 
 bot.onText(/\/switch/, msg => {
 	let name = msg.text.slice(8); // забираем все сообщение и режем команду
-	switcher(name);
+	switcher(msg.chat.id, name);
 });
 
 bot.onText(/\/table/, msg => {});
