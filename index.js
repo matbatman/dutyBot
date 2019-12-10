@@ -124,8 +124,8 @@ bot.onText(/\/run/, msg => {
 });
 
 bot.onText(/\/switch/, msg => {
-	let a = message.id;
-	console.log(a);
+	let name = msg.text.slice(8); // забираем все сообщение и режем команду
+	switcer(name);
 });
 
 bot.onText(/\/table/, msg => {});
