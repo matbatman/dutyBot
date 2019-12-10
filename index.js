@@ -87,7 +87,7 @@ function switcher(chatID, firstLetterOfName) {
 			return 'success';
 
 		default:
-			return 'name not found';
+			bot.sendMessage(chatID, 'имя не найдено');
 	}
 }
 
