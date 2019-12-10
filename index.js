@@ -64,7 +64,7 @@ function onDuty(testerObj) {
 	console.log(testerObj);
 }
 
-function switcer(firstLetterOfName) {
+function switcher(firstLetterOfName) {
 	switch (firstLetterOfName) {
 		case 'костя':
 			onDuty(arrTestersObj[0]);
@@ -125,7 +125,7 @@ bot.onText(/\/run/, msg => {
 
 bot.onText(/\/switch/, msg => {
 	let name = msg.text.slice(8); // забираем все сообщение и режем команду
-	switcer(name);
+	switcher(name);
 });
 
 bot.onText(/\/table/, msg => {});
