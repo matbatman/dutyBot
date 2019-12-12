@@ -21,18 +21,17 @@ arrTestersObj[2] = {
 arrTestersObj[3] = {
 	telegaName: '@matbat',
 	name: 'вика',
-	isDone: true,
+	isDone: false,
 };
 arrTestersObj[4] = {
 	telegaName: '@iEclisse',
 	name: 'дима',
-	isDone: true,
+	isDone: false,
 };
 
 function reset(arrTestersObj) {
 	if (arrTestersObj.every(obj => obj.isDone)) {
 		arrTestersObj.forEach(o => (o.isDone = false));
-		console.log(arrTestersObj);
 	}
 }
 
@@ -46,6 +45,15 @@ function onDuty(testerObj) {
 	return testerObj;
 }
 
+function searchByName(chatID, name) {
+	if (arrTestersObj.find(obj => obj.name === name)) {
+		let faundedOb = arrTestersObj.find(obj => obj.name === name);
+		return faundedOb;
+	} else {
+		bot.sendMessage(chatID, 'имя не найдено');
+	}
+}
+
 function off(testerObj) {
 	testerObj.isDone = -1;
 	return testerObj;
@@ -54,16 +62,6 @@ function off(testerObj) {
 function on(testerObj) {
 	testerObj.isDone = false;
 	return testerObj;
-}
-
-function switcher(chatID, name) {
-	if (arrTestersObj.find(obj => obj.name === name)) {
-		let faundedOb = arrTestersObj.find(obj => obj.name === name);
-		console.log(faundedOb);
-		navigation(chatID, faundedOb.telegaName);
-	} else {
-		bot.sendMessage(chatID, 'имя не найдено');
-	}
 }
 
 function navigation(chatID, telegaId) {
@@ -100,12 +98,20 @@ bot.onText(/\/run/, msg => {
 
 bot.onText(/\/switch/, msg => {
 	let name = msg.text.slice(8); // забираем все сообщение и режем команду
-	switcher(msg.chat.id, name);
+	let tag = searchByName(msg.chat.id, name);
+	navigation(msg.chat.id, tag.telegaName);
 });
 
 bot.onText(/\/off/, msg => {
-	let name = msg.text.slice(8); // забираем все сообщение и режем команду
-	off();
+	let name = msg.text.slice(5); // забираем все сообщение и режем команду
+	let PersonOnVacation = searchByName(msg.chat.id, name);
+	off(PersonOnVacation);
+});
+
+bot.onText(/\/on/, msg => {
+	let name = msg.text.slice(4); // забираем все сообщение и режем команду
+	let PersonOffVacation = searchByName(msg.chat.id, name);
+	on(PersonOffVacation);
 });
 
 bot.onText(/\/table/, msg => {});
