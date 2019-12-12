@@ -1,39 +1,33 @@
-const keys = require('./token.js');
+const { bot } = require('./config.js');
 
 let hypotheticalDuty;
 let arrTestersObj = [];
 
 arrTestersObj[0] = {
 	telegaName: '@stan61rus',
+	name: 'костя',
 	isDone: false,
 };
 arrTestersObj[1] = {
 	telegaName: '@Даниил',
+	name: 'даня',
 	isDone: false,
 };
 arrTestersObj[2] = {
 	telegaName: '@Денис',
+	name: 'денис',
 	isDone: false,
 };
 arrTestersObj[3] = {
 	telegaName: '@matbat',
+	name: 'вика',
 	isDone: false,
 };
 arrTestersObj[4] = {
 	telegaName: '@iEclisse',
+	name: 'дима',
 	isDone: false,
 };
-
-const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(keys.token, {
-	polling: {
-		interval: 300,
-		autoStart: true,
-		params: {
-			timeout: 10,
-		},
-	},
-});
 
 function reset(arrTestersObj) {
 	if (
@@ -43,7 +37,7 @@ function reset(arrTestersObj) {
 		arrTestersObj[3].isDone &&
 		arrTestersObj[4].isDone
 	) {
-		// слишком за уши
+		// слишком за уши — нада что то норм
 		for (let i = 0; i < arrTestersObj.length; i++) {
 			arrTestersObj[i].isDone = false;
 		}
@@ -61,6 +55,16 @@ function rotator(arrTestersObj) {
 
 function onDuty(testerObj) {
 	testerObj.isDone = true;
+	return testerObj;
+}
+
+function off(testerObj) {
+	testerObj.isDone = -1;
+	return testerObj;
+}
+
+function on(testerObj) {
+	testerObj.isDone = false;
 	return testerObj;
 }
 
@@ -126,6 +130,11 @@ bot.onText(/\/run/, msg => {
 bot.onText(/\/switch/, msg => {
 	let name = msg.text.slice(8); // забираем все сообщение и режем команду
 	switcher(msg.chat.id, name);
+});
+
+bot.onText(/\/off/, msg => {
+	let name = msg.text.slice(8); // забираем все сообщение и режем команду
+	off();
 });
 
 bot.onText(/\/table/, msg => {});
