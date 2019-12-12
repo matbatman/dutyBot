@@ -6,46 +6,38 @@ let arrTestersObj = [];
 arrTestersObj[0] = {
 	telegaName: '@stan61rus',
 	name: 'костя',
-	isDone: false,
+	isDone: true,
 };
 arrTestersObj[1] = {
 	telegaName: '@Даниил',
 	name: 'даня',
-	isDone: false,
+	isDone: true,
 };
 arrTestersObj[2] = {
 	telegaName: '@Денис',
 	name: 'денис',
-	isDone: false,
+	isDone: true,
 };
 arrTestersObj[3] = {
 	telegaName: '@matbat',
 	name: 'вика',
-	isDone: false,
+	isDone: true,
 };
 arrTestersObj[4] = {
 	telegaName: '@iEclisse',
 	name: 'дима',
-	isDone: false,
+	isDone: true,
 };
 
 function reset(arrTestersObj) {
-	if (
-		arrTestersObj[0].isDone &&
-		arrTestersObj[1].isDone &&
-		arrTestersObj[2].isDone &&
-		arrTestersObj[3].isDone &&
-		arrTestersObj[4].isDone
-	) {
-		// слишком за уши — нада что то норм
-		for (let i = 0; i < arrTestersObj.length; i++) {
-			arrTestersObj[i].isDone = false;
-		}
+	if (arrTestersObj.every(obj => obj.isDone)) {
+		arrTestersObj.forEach(o => (o.isDone = false));
+		console.log(arrTestersObj);
 	}
 }
 
 function rotator(arrTestersObj) {
-	let switcher = arrTestersObj.find(ob => ob.isDone === false);
+	let switcher = arrTestersObj.find(obj => obj.isDone === false);
 	return switcher;
 }
 
