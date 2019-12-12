@@ -30,22 +30,26 @@ arrTestersObj[4] = {
 };
 
 function reset(arrTestersObj) {
+	// перезатирает isDone, когда все отдежурили
 	if (arrTestersObj.every(obj => obj.isDone)) {
 		arrTestersObj.forEach(o => (o.isDone = false));
 	}
 }
 
 function rotator(arrTestersObj) {
+	// находит первого свободного тестировщика (того, кто еще не дежурил)
 	let switcher = arrTestersObj.find(obj => obj.isDone === false);
 	return switcher;
 }
 
 function onDuty(testerObj) {
+	// проставляет флаг дежурства
 	testerObj.isDone = true;
 	return testerObj;
 }
 
 function searchByName(chatID, name) {
+	// ищет по совпадению имени дежурного
 	if (arrTestersObj.find(obj => obj.name === name)) {
 		let faundedOb = arrTestersObj.find(obj => obj.name === name);
 		return faundedOb;
@@ -55,16 +59,19 @@ function searchByName(chatID, name) {
 }
 
 function off(testerObj) {
+	// проставляет флаг отпуска
 	testerObj.isDone = -1;
 	return testerObj;
 }
 
 function on(testerObj) {
+	// убирает флаг отпуска
 	testerObj.isDone = false;
 	return testerObj;
 }
 
 function navigation(chatID, telegaId) {
+	// тегалка с кнопочками
 	bot.sendMessage(chatID, `Пора регрессировать ${telegaId}`, {
 		reply_markup: {
 			inline_keyboard: [
@@ -84,6 +91,7 @@ function navigation(chatID, telegaId) {
 	});
 
 	bot.on('callback_query', query => {
+		// прослушка на кнопку подтверждение
 		if (query.data === 'confirm') {
 			onDuty(hypotheticalDuty);
 		}
@@ -91,25 +99,29 @@ function navigation(chatID, telegaId) {
 }
 
 bot.onText(/\/run/, msg => {
+	// ручной запуск поиска дежурного
 	reset(arrTestersObj);
 	hypotheticalDuty = rotator(arrTestersObj);
 	navigation(msg.chat.id, hypotheticalDuty.telegaName);
 });
 
 bot.onText(/\/switch/, msg => {
-	let name = msg.text.slice(8); // забираем все сообщение и режем команду
+	// ручка для смены дежурного на определенного человека
+	let name = msg.text.slice(8); // забираем имя
 	let tag = searchByName(msg.chat.id, name);
 	navigation(msg.chat.id, tag.telegaName);
 });
 
 bot.onText(/\/off/, msg => {
-	let name = msg.text.slice(5); // забираем все сообщение и режем команду
+	// ручка отпуска
+	let name = msg.text.slice(5); // забираем имя
 	let PersonOnVacation = searchByName(msg.chat.id, name);
 	off(PersonOnVacation);
 });
 
 bot.onText(/\/on/, msg => {
-	let name = msg.text.slice(4); // забираем все сообщение и режем команду
+	// ручка выхода из отпуска
+	let name = msg.text.slice(4); // забираем имя
 	let PersonOffVacation = searchByName(msg.chat.id, name);
 	on(PersonOffVacation);
 });
