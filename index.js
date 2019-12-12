@@ -56,30 +56,13 @@ function on(testerObj) {
 	return testerObj;
 }
 
-function switcher(chatID, firstLetterOfName) {
-	switch (firstLetterOfName) {
-		case 'костя':
-			navigation(chatID, arrTestersObj[0].telegaName);
-			return 'success';
-
-		case 'даниил':
-			navigation(chatID, arrTestersObj[1].telegaName);
-			return 'success';
-
-		case 'денис':
-			navigation(chatID, arrTestersObj[2].telegaName);
-			return 'success';
-
-		case 'вика':
-			navigation(chatID, arrTestersObj[3].telegaName);
-			return 'success';
-
-		case 'дима':
-			navigation(chatID, arrTestersObj[4].telegaName);
-			return 'success';
-
-		default:
-			bot.sendMessage(chatID, 'имя не найдено');
+function switcher(chatID, name) {
+	if (arrTestersObj.find(obj => obj.name === name)) {
+		let faundedOb = arrTestersObj.find(obj => obj.name === name);
+		console.log(faundedOb);
+		navigation(chatID, faundedOb.telegaName);
+	} else {
+		bot.sendMessage(chatID, 'имя не найдено');
 	}
 }
 
