@@ -6,26 +6,31 @@ let arrTestersObj = [];
 arrTestersObj[0] = {
 	telegaName: '@stan61rus',
 	name: 'костя',
-	isDone: true,
+	onVacation: false,
+	isDone: false,
 };
 arrTestersObj[1] = {
 	telegaName: '@Даниил',
 	name: 'даня',
-	isDone: true,
+	onVacation: false,
+	isDone: false,
 };
 arrTestersObj[2] = {
 	telegaName: '@Денис',
 	name: 'денис',
-	isDone: true,
+	onVacation: false,
+	isDone: false,
 };
 arrTestersObj[3] = {
 	telegaName: '@matbat',
 	name: 'вика',
+	onVacation: false,
 	isDone: false,
 };
 arrTestersObj[4] = {
 	telegaName: '@iEclisse',
 	name: 'дима',
+	onVacation: false,
 	isDone: false,
 };
 
@@ -37,8 +42,10 @@ function reset(arrTestersObj) {
 }
 
 function rotator(arrTestersObj) {
-	// находит первого свободного тестировщика (того, кто еще не дежурил)
-	let switcher = arrTestersObj.find(obj => obj.isDone === false);
+	// находит первого свободного тестировщика (того, кто еще не дежурил и не в отпуске)
+	let switcher = arrTestersObj.find(
+		obj => obj.isDone === false && obj.onVacation === false
+	);
 	return switcher;
 }
 
@@ -60,13 +67,13 @@ function searchByName(chatID, name) {
 
 function off(testerObj) {
 	// проставляет флаг отпуска
-	testerObj.isDone = -1;
+	testerObj.onVacation = true;
 	return testerObj;
 }
 
 function on(testerObj) {
 	// убирает флаг отпуска
-	testerObj.isDone = false;
+	testerObj.onVacation = false;
 	return testerObj;
 }
 
