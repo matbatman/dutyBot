@@ -45,12 +45,8 @@ function reset(arrTestersObj) {
 }
 
 function rotator(arrTestersObj) {
-	for (let i = 0; i < arrTestersObj.length; i++) {
-		if (arrTestersObj[i].isDone == false) {
-			let switcher = arrTestersObj[i];
-			return switcher;
-		}
-	}
+	let switcher = arrTestersObj.find(ob => ob.isDone === false);
+	return switcher;
 }
 
 function onDuty(testerObj) {
