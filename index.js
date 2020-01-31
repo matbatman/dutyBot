@@ -1,4 +1,13 @@
 const { bot } = require('./config.js');
+const { jira } = require('./config.js');
+const axios = require('axios/index');
+
+const auth = {
+	auth: {
+		username: jira.login,
+		password: jira.token,
+	},
+};
 
 let hypotheticalDuty;
 let arrTestersObj = [];
@@ -33,6 +42,12 @@ arrTestersObj[4] = {
 	onVacation: false,
 	isDone: false,
 };
+
+async function jiraData() {
+	const url = 'https://jira.uid.me/rest/api/2/issue/ukit-11200';
+	const res = await axios.get(url, { ...auth });
+	console.log(res.data.key);
+}
 
 function reset(arrTestersObj) {
 	// перезатирает isDone, когда все отдежурили
@@ -93,6 +108,16 @@ function navigation(chatID, telegaId) {
 							'https://gitlab.ukit.space/QA/wiki/wikis/home#%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B',
 					},
 				],
+				[
+					{
+						text: 'check',
+						callback_data: 'check',
+					},
+					{
+						text: 'Запустить автотесты на 32',
+						callback_data: 'testsStart',
+					},
+				],
 			],
 		},
 	});
@@ -101,6 +126,15 @@ function navigation(chatID, telegaId) {
 		// прослушка на кнопку подтверждение
 		if (query.data === 'confirm') {
 			onDuty(hypotheticalDuty);
+		}
+		if (query.data === 'check') {
+			jiraData();
+		}
+		if (query.data === 'testsStart') {
+			bot.sendMessage(
+				query.message.chat.id,
+				'/functionalTest regression ulight32.uid.me'
+			);
 		}
 	});
 }
