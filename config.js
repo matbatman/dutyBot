@@ -12,7 +12,7 @@ const bot = new TelegramBot(keys.token, {
 
 const jira = {
 	login: 'regDutyBot',
-	token: '1026332914:AAGUmG3XxoHbJb-Wwg3N0CwkFD4VMrwLBKQ'
+	token: keys.token
 };
 
 module.exports = {bot, jira}
